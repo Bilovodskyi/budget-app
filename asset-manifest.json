@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/budget-app/static/css/main.8c2658ee.css",
+    "main.js": "/budget-app/static/js/main.62d0dc91.js",
+    "static/media/Roboto-Regular.ttf": "/budget-app/static/media/Roboto-Regular.fc2b5060f7accec5cf74.ttf",
+    "index.html": "/budget-app/index.html",
+    "main.8c2658ee.css.map": "/budget-app/static/css/main.8c2658ee.css.map",
+    "main.62d0dc91.js.map": "/budget-app/static/js/main.62d0dc91.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8c2658ee.css",
+    "static/js/main.62d0dc91.js"
+  ]
+}
