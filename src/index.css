@@ -1,13 +1,436 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@font-face {
+    font-family: 'roboto';
+    src: url(./Roboto/Roboto-Regular.ttf);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'roboto';
+    font-size: 1rem;
+}
+
+.root {
+    position: relative;
+}
+
+.title-container {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.title-container h1 {
+    margin-left: 100px;
+    font-size: 2rem;
+}
+
+.btn-holder {
+    margin-right: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.btn-holder button {
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-holder .add-budget {
+    background-color: dodgerblue;
+    color: white;
+}
+
+.btn-holder .add-budget:hover {
+    background-color: rgb(25, 123, 221);
+}
+
+.btn-holder .add-expense {
+    padding: 8px;
+    background-color: white;
+    color: dodgerblue;
+    border: 2px solid dodgerblue;
+}
+
+.btn-holder .add-expense:hover {
+    background-color: dodgerblue;
+    color: white;
+}
+
+.btn-holder .delete-all {
+    padding: 8px;
+    background-color: white;
+    color: #ef3036;
+    border: 2px solid #ef3036;
+}
+
+.btn-holder .delete-all:hover {
+    background-color: #ef3036;
+    color: white;
+}
+
+.card-container {
+    padding: 50px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.card {
+    border: 1px solid #858585;
+    border-radius: 5px;
+    padding: 20px;
+    background-color: white;
+}
+
+.card:last-child {
+    grid-column: 1 / 4;
+    padding: 30px 50px;
+    background-color: #F5F5F5;
+    border: none;
+}
+
+.card:last-child .wrapper {
+    background-color: white;
+}
+
+.card:last-child .card-name,
+.card:last-child .card-amount {
+    font-size: 1.5rem;
+}
+
+.card:last-child .card-amount span {
+    font-size: 1.2rem;
+} 
+
+.card:last-child .progress-bar-fill {
+    height: 20px;
+}
+
+.card.red {
+    background-color: #FDECED;
+}
+
+.card-title {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.card-name {
+    margin: 2px;
+    text-transform: capitalize;
+}
+
+.card-amount {
+    display: flex;
+    align-items: baseline;
+}
+
+.card-amount span {
+    margin-left: 4px;
+    opacity: 0.75;
+    font-size: 0.8rem;
+}
+
+.progress-bar {
+    width: 100%;
+}
+
+.wrapper {
+    width: 100%;
+    background-color: #F5F5F5;
+    padding: 2px;
+    border-radius: 3px;
+}
+/* 
+.wrapper span {
+    width: 20%;
+} */
+
+.progress-bar-fill {
+    display: block;
+    height: 15px;
+    border-radius: 3px;
+    transition: 500ms ease-in-out;
+}
+
+.progress-bar-fill.blue {
+    background-color: dodgerblue;
+}
+
+.progress-bar-fill.yellow {
+    background-color: #F5E960;
+}
+
+.progress-bar-fill.red {
+    background-color: #ef3036;
+}
+
+.card-btn-holder {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.card-btn-holder button {
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.card-btn-holder .card-add-expense {
+    background-color: white;
+    color: dodgerblue;
+    border: 1px solid dodgerblue;
+}
+
+.card-btn-holder .card-add-expense:hover {
+    background-color: dodgerblue;
+    color: white;
+}
+
+.card-btn-holder .card-view-expenses{
+    background-color: white;
+    color: #858585;
+    border: 1px solid #858585;
+
+}
+
+.card-btn-holder .card-view-expenses:hover {
+    background-color: #858585;
+    color: white;
+}
+
+.budget-modal.show {
+    display: block;
+}
+
+.expense-modal.show {
+    display: block;
+}
+
+.view-expenses-modal.show {
+    display: block;
+}
+
+.budget-modal,
+.expense-modal,
+.view-expenses-modal {
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+}
+
+.budget-modal form,
+.expense-modal form,
+.view-expenses-modal .form-replace  { 
+    background-color: white;
+    position: absolute;
+    border: 1px solid #858585;
+    border-radius: 5px;
+    padding: 20px;
+    min-width: 400px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #858585;
+}
+
+.modal-header h1 {
+    font-size: 1.25rem;
+}
+
+.modal-header h1,
+.modal-body select,
+.view-expenses-modal .expense-name  {
+    text-transform: capitalize;
+}
+
+.modal-close-btn {
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+}
+
+.modal-body input,
+.modal-body select {
+    margin-bottom: 20px;
+    padding: 5px;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #858585;
+}
+
+.modal-body label {
+    margin-bottom: 10px;
+}
+
+.modal-add-btn {
+    text-align: end;
+}
+
+.view-expenses-modal .modal-add-btn {
+    text-align: center;
+}
+
+.view-expenses-modal .modal-add-btn button{
+    color: #ef3036;
+    border: 2px solid #ef3036;
+}
+
+.view-expenses-modal .modal-add-btn button:hover{
+    background-color: #ef3036;
+    color: white;
+}
+
+.modal-add-btn button {
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    background-color: white;
+    color: dodgerblue;
+    border: 2px solid dodgerblue;
+}
+
+.modal-add-btn button:hover {
+    background-color: dodgerblue;
+    color: white;
+}
+
+
+.view-expenses-modal .expense {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.view-expenses-modal .modal-body {
+    padding-bottom: 20px;
+}
+
+.expenses-align-right {
+    display: flex;
+    align-items: center;
+}
+
+.modal-close-btn {
+    height: 25px;
+    margin-left: 5px;
+}
+
+.modal-close-btn img {
+    height: 100%;
+}
+
+@media screen and (max-width: 1370px) {
+    .card:last-child {
+        grid-column: 1 / 3;
+
+    }
+}
+
+@media screen and (max-width: 930px) {
+    .card:last-child {
+        grid-column: 1 / 2;
+
+    }
+
+    .title-container h1 {
+        margin-left: 25px;
+    }
+
+    .btn-holder {
+        margin-right: 25px;
+        gap: 5px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    html {
+        font-size: 13px;
+    }
+
+    .title-container {
+        padding-top: 40px;
+    }
+
+    .title-container h1 {
+        margin-left: 15px;
+    }
+
+    .btn-holder {
+        margin-right: 15px;
+        gap: 5px;
+    }
+
+    .btn-holder button {
+        font-size: 0.9rem;
+    }
+
+    .card-container {
+        padding: 20px 15px;
+        grid-template-columns: 1fr;
+    }
+
+    .card:last-child {
+        padding: 20px;
+
+    }
+
+    .card-name,
+    .card-amount {
+        font-size: 1.25rem;
+    }
+    
+    .card-amount span {
+        font-size: 1rem;
+    }
+
+    .budget-modal form,
+    .expense-modal form,
+    .view-expenses-modal .form-replace  { 
+        min-width: 350px;
+
+    }
+
+    .view-expenses-modal .expense {
+        margin-bottom: 12px;
+    }
+
+    .view-expenses-modal .expense:last-child {
+        margin-bottom: 10px;
+    }
+    
+
 }
